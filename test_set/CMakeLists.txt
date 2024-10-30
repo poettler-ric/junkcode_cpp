@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.29)
+cmake_minimum_required(VERSION 3.30)
 
 project(test_set VERSION 0.1 LANGUAGES C CXX)
 
