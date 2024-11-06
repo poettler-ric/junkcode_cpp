@@ -24,5 +24,12 @@ int main() {
     if (const auto v = std::get_if<int>(&m1.value)) {
         std::print("got int: {}\n", *v);
     }
+
+    Material m0{1, "zero mat", 0};
+    if (const auto v = std::get_if<int>(&m0.value)) {
+        std::println("get_if with 0 evaluates to true: {}", *v);
+    } else {
+        std::println("get_if with 0 evaluates to false");
+    }
     return 0;
 }
