@@ -2,9 +2,9 @@
 #include <print>
 
 class Point {
-public:
-  int x;
-  int y;
+   public:
+    int x;
+    int y;
 };
 
 // Template:
@@ -29,21 +29,23 @@ public:
 //   }
 // };
 
-template <> struct std::formatter<Point> : std::formatter<string_view> {
-  auto format(const Point &p, std::format_context &ctx) const {
-    std::string buffer;
-    std::format_to(std::back_inserter(buffer), "Point(x: {}, y: {})", p.x, p.y);
-    return std::formatter<string_view>::format(buffer, ctx);
-  }
+template <>
+struct std::formatter<Point> : std::formatter<string_view> {
+    auto format(const Point &p, std::format_context &ctx) const {
+        std::string buffer;
+        std::format_to(std::back_inserter(buffer), "Point(x: {}, y: {})", p.x,
+                       p.y);
+        return std::formatter<string_view>::format(buffer, ctx);
+    }
 };
 
 int main() {
-  Point p1{1, 3};
-  std::print("point1: {}\n", p1);
-  int x, y;
-  std::cin >> x >> y;
-  Point p2{x, y};
-  std::print("point2: {}\n", p2);
+    Point p1{1, 3};
+    std::print("point1: {}\n", p1);
+    int x, y;
+    std::cin >> x >> y;
+    Point p2{x, y};
+    std::print("point2: {}\n", p2);
 
-  return 0;
+    return 0;
 }
