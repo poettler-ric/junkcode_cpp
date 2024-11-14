@@ -13,6 +13,15 @@ class Point {
     }
 };
 
+// needed since unordered_set uses == first to check if a element is present
+template <>
+struct std::equal_to<std::shared_ptr<Point>> {
+    bool operator()(const std::shared_ptr<Point>& lhs,
+                    const std::shared_ptr<Point>& rhs) const noexcept {
+        return *lhs == *rhs;
+    }
+};
+
 // normal hash function for Point
 template <>
 struct std::hash<Point> {
@@ -21,15 +30,6 @@ struct std::hash<Point> {
         boost::hash_combine(seed, std::hash<double>{}(p.x));
         boost::hash_combine(seed, std::hash<double>{}(p.y));
         return seed;
-    }
-};
-
-// needed since unordered_set uses == first to check if a element is present
-template <>
-struct std::equal_to<std::shared_ptr<Point>> {
-    bool operator()(const std::shared_ptr<Point>& lhs,
-                    const std::shared_ptr<Point>& rhs) const noexcept {
-        return *lhs == *rhs;
     }
 };
 
