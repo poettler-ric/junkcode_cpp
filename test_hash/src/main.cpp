@@ -84,17 +84,34 @@ int main(int argc, char* argv[]) {
     }
 
     std::println("edges");
-    const Point p1{1.5, 3.5};
-    const Point p2{2.1, 8.3};
+    const Point point1{1.5, 3.5};
+    const Point point2{2.1, 8.3};
     const Point eq_point{2.1, 8.3};
     std::unordered_set<Edge> edges{
-        Edge{std::make_shared<Point>(p1), std::make_shared<Point>(p2)},
-        Edge{std::make_shared<Point>(p2), std::make_shared<Point>(eq_point)},
-        Edge{std::make_shared<Point>(p1), std::make_shared<Point>(eq_point)}};
+        Edge{std::make_shared<Point>(point1), std::make_shared<Point>(point2)},
+        Edge{std::make_shared<Point>(point2),
+             std::make_shared<Point>(eq_point)},
+        Edge{std::make_shared<Point>(point1),
+             std::make_shared<Point>(eq_point)}};
     for (const auto& e : edges) {
         std::println("({}, {}) - ({}, {})", e.first->x, e.first->y, e.second->x,
                      e.second->y);
     }
+
+    std::println("variant");
+    std::variant<Point, Edge> varaint{point1};
+    std::println("variant: {} point: {} equal: {}",
+                 std::hash<std::variant<Point, Edge>>{}(varaint),
+                 std::hash<Point>{}(point1),
+                 std::hash<std::variant<Point, Edge>>{}(varaint) ==
+                     std::hash<Point>{}(point1));
+    Edge edge{std::make_shared<Point>(point1), std::make_shared<Point>(point2)};
+    varaint = edge;
+    std::println("variant: {} edge: {} equal: {}",
+                 std::hash<std::variant<Point, Edge>>{}(varaint),
+                 std::hash<Edge>{}(edge),
+                 std::hash<std::variant<Point, Edge>>{}(varaint) ==
+                     std::hash<Edge>{}(edge));
 
     return EXIT_SUCCESS;
 }
