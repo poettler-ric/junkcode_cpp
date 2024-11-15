@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include <print>
 
 class Point {
@@ -39,13 +40,50 @@ struct std::formatter<Point> : std::formatter<string_view> {
     }
 };
 
+class Edge {
+   public:
+    Point first;
+    Point second;
+};
+
+template <>
+struct std::formatter<Edge> : std::formatter<string_view> {
+    auto format(const Edge &e, std::format_context &ctx) const {
+        std::string buffer;
+        std::format_to(std::back_inserter(buffer), "Edge({} -> {})", e.first,
+                       e.second);
+        return std::formatter<string_view>::format(buffer, ctx);
+    }
+};
+
+class EdgePtr {
+   public:
+    std::shared_ptr<Point> first;
+    std::shared_ptr<Point> second;
+};
+
+template <>
+struct std::formatter<EdgePtr> : std::formatter<string_view> {
+    auto format(const EdgePtr &e, std::format_context &ctx) const {
+        std::string buffer;
+        std::format_to(std::back_inserter(buffer), "EdgePtr({} -> {})",
+                       *e.first, *e.second);
+        return std::formatter<string_view>::format(buffer, ctx);
+    }
+};
+
 int main() {
-    Point p1{1, 3};
-    std::print("point1: {}\n", p1);
-    int x, y;
-    std::cin >> x >> y;
-    Point p2{x, y};
-    std::print("point2: {}\n", p2);
+    Point p1{1.0, 3.2};
+    Point p2{5.3, 4.4};
+    std::println("point1: {}", p1);
+    std::println("point2: {}", p2);
+
+    Edge e{p1, p2};
+    std::println("edge: {}", e);
+
+    EdgePtr ep{std::make_shared<Point>(p1), std::make_shared<Point>(p2)};
+    std::println("edge nodepointer: {}", ep);
+    std::println("edge nodepointer: {} -> {}", *ep.first, *ep.second);
 
     return 0;
 }
