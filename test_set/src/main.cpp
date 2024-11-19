@@ -32,7 +32,7 @@ int main() {
     Point p3{2, 1};
     Point p4{3, 1};
     Point p5{6, 3};
-    Point p6{3, 1};
+    Point p6{3, 1};  // p4 == p6
 
     std::println("comparing:");
     std::println("{} < {}: {}", p1, p2, p1 < p2);
