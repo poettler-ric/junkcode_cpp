@@ -8,9 +8,7 @@ class Point {
     double x;
     double y;
 
-    bool operator==(const Point& other) const {
-        return (x == other.x && y == other.y);
-    }
+    auto operator<=>(const Point&) const = default;
 };
 
 // needed since unordered_set uses == first to check if a element is present
@@ -46,12 +44,19 @@ class Edge {
    public:
     std::shared_ptr<Point> first;
     std::shared_ptr<Point> second;
+
+    auto operator<=>(const Edge& other) const noexcept {
+        if (const auto res = (*first <=> *other.first); res != 0) {
+            return res;
+        }
+        return *second <=> *other.second;
+    }
 };
 
 template <>
 struct std::equal_to<Edge> {
     bool operator()(const Edge& lhs, const Edge& rhs) const noexcept {
-        return *lhs.first == *rhs.first && *lhs.second == *rhs.second;
+        return (lhs <=> rhs) == 0;
     }
 };
 
