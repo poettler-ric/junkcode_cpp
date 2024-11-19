@@ -49,7 +49,22 @@ int main() {
     std::set<Point> point_set{p1, p2, p3, p4, p5, p6};
 
     std::println("iterating:");
-    for (auto p : point_set) {
+    for (const auto &p : point_set) {
+        std::println("{}", p);
+    }
+
+    std::println("= emptying");
+    std::vector<Point> vector(point_set.size());
+    for (auto [it, i] = std::tuple{point_set.begin(), 0}; it != point_set.end();
+         i++) {
+        vector[i] = std::move(point_set.extract(it++).value());
+    }
+    std::println("set:");
+    for (const auto &p : point_set) {
+        std::println("{}", p);
+    }
+    std::println("vector:");
+    for (const auto &p : vector) {
         std::println("{}", p);
     }
 
