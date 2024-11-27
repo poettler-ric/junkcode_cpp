@@ -68,5 +68,17 @@ int main() {
         std::println("{}", p);
     }
 
+    std::println("= copying");
+    std::set<int> int_set{5, 3, 5, 2, 50, 20, 23};
+    std::println("int set:");
+    for (const auto &i : int_set) {
+        std::println("{}", i);
+    }
+    std::vector<int> int_vector{int_set.begin(), int_set.end()};
+    std::println("int vector:");
+    for (const auto &i : int_vector) {
+        std::println("{}", i);
+    }
+
     return 0;
 }
